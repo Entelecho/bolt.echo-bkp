@@ -4,7 +4,7 @@ compatibility_flags = ["nodejs_compat"]
 compatibility_date = "2024-07-01"
 
 workers_dev = true
-account_id = "f078e3e41007c3af42364a968f77c91a"
+account_id = "d1fcd8dbbd35aec43e5499200f6baede"
 
 [build]
 command = "npm run build"
@@ -12,24 +12,21 @@ watch_dir = "build/client"
 
 [site]
 bucket = "./build/client"
-entry-point = "functions/[[path]].ts"
+kv_namespaces = [
+    { binding = "__STATIC_CONTENT", id = "47281d46d88b456b88b860d33fd2bc3a", preview_id = "47281d46d88b456b88b860d33fd2bc3a" }
+]
 
 [build.upload]
 format = "service-worker"
 
 [env.production]
 name = "bolt-echo"
-routes = ["https://echocog.org/*"]
-
-[env.production.vars]
-ENVIRONMENT = "production"
+routes = [
+    { pattern = "echocog.org", custom_domain = true }
+]
 
 [env.staging]
 name = "bolt-echo-staging"
-routes = ["https://staging.echocog.org/*"]
-
-[env.staging.vars]
-ENVIRONMENT = "staging"
-
-[triggers]
-crons = ["*/15 * * * *"]  # Run every 15 minutes
+routes = [
+    { pattern = "staging.echocog.org", custom_domain = true }
+]
