@@ -12,17 +12,14 @@ watch_dir = "build/client"
 
 [site]
 bucket = "./build/client"
-kv_namespaces = [
-    { binding = "__STATIC_CONTENT", id = "47281d46d88b456b88b860d33fd2bc3a", preview_id = "47281d46d88b456b88b860d33fd2bc3a" }
-]
 
 [build.upload]
-format = "service-worker"
+format = "modules"
 
 [env.production]
 name = "bolt-echo"
 routes = [
-    { pattern = "echocog.org", custom_domain = true }
+    { pattern = "bolt.echocog.org", custom_domain = true }
 ]
 
 [env.staging]
