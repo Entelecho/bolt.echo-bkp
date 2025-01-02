@@ -1,6 +1,7 @@
-[![Bolt.new: AI-Powered Full-Stack Web Development in the Browser](./public/social_preview_index.jpg)](https://bolt.new)
 
 # Bolt.new: AI-Powered Full-Stack Web Development in the Browser
+
+[![Bolt.new: AI-Powered Full-Stack Web Development in the Browser](./public/social_preview_index.jpg)](https://bolt.new)
 
 Bolt.new is an AI-powered web development agent that allows you to prompt, run, edit, and deploy full-stack applications directly from your browser—no local setup required. If you're here to build your own AI-powered web dev agent using the Bolt open source codebase, [click here to get started!](./CONTRIBUTING.md)
 
@@ -36,7 +37,7 @@ Here are some tips to get the most out of Bolt.new:
 ## FAQs
 
 **Where do I sign up for a paid plan?**  
-Bolt.new is free to get started. If you need more AI tokens or want private projects, you can purchase a paid subscription in your [Bolt.new](https://bolt.new) settings, in the lower-left hand corner of the application. 
+Bolt.new is free to get started. If you need more AI tokens or want private projects, you can purchase a paid subscription in your [Bolt.new](https://bolt.new) settings, in the lower-left hand corner of the application.
 
 **What happens if I hit the free usage limit?**  
 Once your free daily token limit is reached, AI interactions are paused until the next day or until you upgrade your plan.
