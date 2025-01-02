@@ -4,7 +4,7 @@ compatibility_flags = ["nodejs_compat"]
 compatibility_date = "2024-07-01"
 
 workers_dev = true
-account_id = "${CLOUDFLARE_ACCOUNT_ID}"
+account_id = "f078e3e41007c3af42364a968f77c91a"
 
 [build]
 command = "npm run build"
@@ -18,17 +18,14 @@ entry-point = "functions/[[path]].ts"
 format = "service-worker"
 
 [env.production]
+name = "bolt-echo"
 routes = ["https://echocog.org/*"]
-zone_id = "${CLOUDFLARE_ZONE_ID}"
 
 [env.production.vars]
-CLOUDFLARE_API_TOKEN = "${CLOUDFLARE_API_TOKEN}"
-CLOUDFLARE_ACCOUNT_ID = "${CLOUDFLARE_ACCOUNT_ID}"
-ANTHROPIC_API_KEY = "${ANTHROPIC_API_KEY}"
-OPENAI_API_KEY = "${OPENAI_API_KEY}"
 ENVIRONMENT = "production"
 
 [env.staging]
+name = "bolt-echo-staging"
 routes = ["https://staging.echocog.org/*"]
 
 [env.staging.vars]
@@ -36,12 +33,3 @@ ENVIRONMENT = "staging"
 
 [triggers]
 crons = ["*/15 * * * *"]  # Run every 15 minutes
-
-[[kv_namespaces]]
-binding = "ECHO_KV"
-id = "${ECHO_KV_ID}"
-
-[[d1_databases]]
-binding = "ECHO_DB"
-database_name = "echo-db"
-database_id = "${ECHO_DB_ID}"
