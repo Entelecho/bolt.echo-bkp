@@ -1,13 +1,47 @@
 name = "bolt-echo"
+main = "./functions/[[path]].ts"
 compatibility_flags = ["nodejs_compat"]
 compatibility_date = "2024-07-01"
 
-pages_build_output_dir = "./build/client" # Required for Pages builds
+workers_dev = true
+account_id = "${CLOUDFLARE_ACCOUNT_ID}"
 
-[vars]
+[build]
+command = "npm run build"
+watch_dir = "build/client"
+
+[site]
+bucket = "./build/client"
+entry-point = "functions/[[path]].ts"
+
+[build.upload]
+format = "service-worker"
+
+[env.production]
+routes = ["https://echocog.org/*"]
+zone_id = "${CLOUDFLARE_ZONE_ID}"
+
+[env.production.vars]
 CLOUDFLARE_API_TOKEN = "${CLOUDFLARE_API_TOKEN}"
 CLOUDFLARE_ACCOUNT_ID = "${CLOUDFLARE_ACCOUNT_ID}"
 ANTHROPIC_API_KEY = "${ANTHROPIC_API_KEY}"
 OPENAI_API_KEY = "${OPENAI_API_KEY}"
+ENVIRONMENT = "production"
 
-routes = ["https://echocog.org/*"]
+[env.staging]
+routes = ["https://staging.echocog.org/*"]
+
+[env.staging.vars]
+ENVIRONMENT = "staging"
+
+[triggers]
+crons = ["*/15 * * * *"]  # Run every 15 minutes
+
+[[kv_namespaces]]
+binding = "ECHO_KV"
+id = "${ECHO_KV_ID}"
+
+[[d1_databases]]
+binding = "ECHO_DB"
+database_name = "echo-db"
+database_id = "${ECHO_DB_ID}"
