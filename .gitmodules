@@ -1,4 +1,0 @@
-[submodule "Eliza"]
-    path = Eliza
-    url = https://github.com/EchoCog/Eliza.git
-    branch = main
