@@ -1,54 +1,44 @@
 name: Deploy
-
 on:
   push:
-    branches: [main]
-    paths-ignore:
-      - '**.md'
-      - '.github/**'
+    branches: main
   pull_request:
-    branches: [main]
-  workflow_dispatch:
+    branches: main
 
 jobs:
   deploy:
+    name: Deploy
     runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '20'
-          cache: 'npm'
-          
-      - name: Install Dependencies
-        run: |
-          npm install
-          npm install -g wrangler
-          
-      - name: Build
-        run: npm run build
-        env:
-          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          
-      - name: Deploy to Staging
-        if: github.event_name == 'pull_request'
-        run: wrangler deploy --env staging
-        env:
-          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          
-      - name: Deploy to Production
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-        run: wrangler deploy --env production
-        env:
-          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
 
-      - name: Update Deployment Status
-        run: |
-          echo "::notice::Deployment completed successfully!"
-          echo "Production URL: https://echocog.org"
-          echo "Staging URL: https://staging.echocog.org"
+    permissions:
+      id-token: write # Needed for auth with Deno Deploy
+      contents: read # Needed to clone the repository
+
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v4
+
+      - name: Install Deno
+        uses: denoland/setup-deno@v2
+        with:
+          deno-version: v2.x
+
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+
+      - name: Install step
+        run: "npm install"
+
+      - name: Build step
+        run: "npm run build"
+
+      - name: Upload to Deno Deploy
+        uses: denoland/deployctl@v1
+        with:
+          project: "dtecho-boltecho-bk-14"
+          entrypoint: "index.js"
+          root: "build"
+          
+          
